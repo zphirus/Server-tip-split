@@ -293,7 +293,7 @@ function calculateTime(){
     const people=Number(peopleInputs[i].value)||0;
     totalHours += hours*people;
   }
-
+calculateTime();
   if(totalHours===0){
     document.getElementById("timeResult").innerHTML="";
     return;
