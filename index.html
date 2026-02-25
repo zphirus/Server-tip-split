@@ -250,7 +250,63 @@ input{
   background:#eef2ff;
   border:1px solid #c7d2fe;
 }
+/* ============================= */
+/*   Tip & Time Card Upgrade    */
+/* ============================= */
 
+.tip-card .inner-card,
+.time-card .inner-card{
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:14px;
+  margin-top:12px;
+}
+
+.tip-card h3,
+.time-card h3{
+  font-size:12px;
+  margin-bottom:10px;
+  color:#374151;
+}
+
+.percent-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  gap:10px;
+}
+
+.percent-row input{
+  width:90px;
+  padding:6px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+}
+
+/* Extra 강조 */
+.extra-section{
+  background:#eef2ff;
+  border:1px solid #c7d2fe;
+}
+
+/* Add 버튼 스타일 */
+.add-btn{
+  margin-top:10px;
+  padding:8px 12px;
+  border-radius:10px;
+  border:none;
+  background:#4f46e5;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.add-btn:active{
+  transform:scale(.95);
+}
 </style>
 </head>
 
@@ -261,18 +317,51 @@ input{
 <!-- ================= TIP MODE ================= -->
 <div id="tipMode">
 
-<div class="card">
+<div class="card tip-card">
+
 <h2>층별 팁 입력</h2>
-<div class="grid-2">
-<div><label>1F Cash</label><input type="number" id="f1c"></div>
-<div><label>1F Card</label><input type="number" id="f1d"></div>
-<div><label>2F Cash</label><input type="number" id="f2c"></div>
-<div><label>2F Card</label><input type="number" id="f2d"></div>
-<div><label>3F Cash</label><input type="number" id="f3c"></div>
-<div><label>3F Card</label><input type="number" id="f3d"></div>
+
+<div class="inner-card">
+  <h3>1층</h3>
+  <div class="percent-row">
+    <label>Cash</label>
+    <input type="number" id="f1c">
+  </div>
+  <div class="percent-row">
+    <label>Card</label>
+    <input type="number" id="f1d">
+  </div>
 </div>
-<label>Extra Tip</label>
-<input type="number" id="extra">
+
+<div class="inner-card">
+  <h3>2층</h3>
+  <div class="percent-row">
+    <label>Cash</label>
+    <input type="number" id="f2c">
+  </div>
+  <div class="percent-row">
+    <label>Card</label>
+    <input type="number" id="f2d">
+  </div>
+</div>
+
+<div class="inner-card">
+  <h3>3층</h3>
+  <div class="percent-row">
+    <label>Cash</label>
+    <input type="number" id="f3c">
+  </div>
+  <div class="percent-row">
+    <label>Card</label>
+    <input type="number" id="f3d">
+  </div>
+</div>
+
+<div class="inner-card extra-section">
+  <h3>Extra Tip</h3>
+  <input type="number" id="extra">
+</div>
+
 </div>
 
 <div class="card percent-card">
@@ -346,18 +435,24 @@ input{
 <div id="percentResult" class="result"></div>
 
 </div>
-  <div class="card">
+  <div class="card time-card">
+
 <h2>시간 기준 분배</h2>
 
-<label>총 팁</label>
-<input type="number" id="timeTotal">
+<div class="inner-card">
+  <h3>총 팁</h3>
+  <input type="number" id="timeTotal">
+</div>
 
-<div id="timeContainer"></div>
-
-<button onclick="addTimeRow()">+ 사람 추가</button>
+<div class="inner-card">
+  <h3>근무 시간 입력</h3>
+  <div id="timeContainer"></div>
+  <button class="add-btn" onclick="addTimeRow()">+ 사람 추가</button>
+</div>
 
 <div id="timeResult" class="result"></div>
-</div>
+
+  </div>
 
 </div>
 
