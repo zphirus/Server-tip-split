@@ -368,7 +368,7 @@ function calculateTime(){
     const people=Number(peopleInputs[i].value)||0;
     totalHours += hours*people;
   }
-calculateTime();
+
   if(totalHours===0){
     document.getElementById("timeResult").innerHTML="";
     return;
@@ -396,6 +396,7 @@ calculateTime();
   html+=`<br>남은 금액: ${total-distributed}`;
 
   document.getElementById("timeResult").innerHTML=html;
+ document.addEventListener("input", calculateTime);
 }
 /* -------- CALC -------- */
 let expression="";
