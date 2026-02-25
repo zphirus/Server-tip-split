@@ -6,501 +6,385 @@
 <title>Tip Pro</title>
 
 <style>
-
 :root{
-  --bg:#f4f6fb;
+  --bg:#f6f8fc;
   --card:#ffffff;
-  --border:#e5e7eb;
-  --accent:#4f46e5;
-  --operator:#f59e0b;
-  --equal:#10b981;
-  --text:#1f2937;
+  --primary:#4f46e5;
+  --primarySoft:#eef2ff;
+  --text:#111827;
   --sub:#6b7280;
+  --border:#e5e7eb;
+  --success:#10b981;
+  --operator:#f59e0b;
 }
 
-/* ===== Base ===== */
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
   margin:0;
-  padding:14px;
+  padding:20px;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
   background:var(--bg);
   color:var(--text);
   max-width:480px;
-  margin-left:auto;
-  margin-right:auto;
+  margin:auto;
 }
 
-/* ===== Cards ===== */
+/* Header */
+.header{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:16px;
+}
+
+.mode-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#4f46e5,#6366f1);
+  color:white;
+  font-weight:600;
+  margin-bottom:20px;
+  box-shadow:0 8px 20px rgba(79,70,229,.25);
+}
+
+/* Cards */
 .card{
   background:var(--card);
-  padding:16px;
-  border-radius:22px;
-  margin-bottom:16px;
-  border:1px solid var(--border);
-  box-shadow:0 8px 24px rgba(0,0,0,.05);
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.06);
 }
 
-/* ===== Result Animation ===== */
+.card-title{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:14px;
+  color:var(--sub);
+  letter-spacing:.5px;
+}
+
+/* Floor Input */
+.floor-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.floor-row label{
+  font-size:13px;
+  font-weight:600;
+}
+
+.input-group{
+  display:flex;
+  gap:8px;
+}
+
+input{
+  width:55px;
+  padding:6px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  text-align:right;
+  font-size:13px;
+  transition:.15s;
+}
+
+input:focus{
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 2px rgba(79,70,229,.15);
+}
+
+/* Percent */
+.percent-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.stepper{
+  display:flex;
+  gap:6px;
+  align-items:center;
+}
+
+.stepper button{
+  width:26px;
+  height:26px;
+  border:none;
+  border-radius:8px;
+  background:#f3f4f6;
+  font-weight:700;
+}
+
+.stepper input{
+  width:40px;
+  text-align:center;
+}
+
+/* Result Card */
 .result{
-  margin-top:10px;
-  font-size:12px;
+  background:var(--primarySoft);
+  padding:14px;
+  border-radius:14px;
+  font-size:13px;
+  margin-top:12px;
+}
+
+/* Time Section */
+.time-row{
+  display:flex;
+  gap:10px;
+  margin-bottom:8px;
+}
+
+.add-btn{
+  width:100%;
   padding:10px;
   border-radius:12px;
-  background:#f9fafb;
-  border:1px solid var(--border);
-  line-height:1.5;
-  animation:fadeIn .25s ease;
+  border:none;
+  background:#f3f4f6;
+  font-weight:600;
+  margin-top:8px;
 }
 
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(5px);}
-  to{opacity:1; transform:translateY(0);}
+/* Calculator */
+#calcMode{
+  min-height:80vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
-
-.hidden{display:none}
-
-/* ================= CALCULATOR ================= */
 
 .calc-display{
   background:#111827;
   color:#22c55e;
-  padding:16px;
-  font-size:22px;
-  border-radius:16px;
-  margin-bottom:6px;
+  padding:18px;
+  font-size:24px;
+  border-radius:18px;
+  margin-bottom:8px;
   text-align:right;
-  transition:.2s ease;
 }
 
 .calc-preview{
   background:#f3f4f6;
   padding:10px;
-  font-size:13px;
   border-radius:12px;
+  font-size:13px;
   margin-bottom:14px;
   text-align:right;
 }
 
-/* Grid */
 .calc-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:10px;
 }
 
-/* 기본 숫자 버튼 */
 .calc-grid button{
-  background:white;
-  border:1px solid var(--border);
+  height:60px;
   border-radius:16px;
-  padding:16px 0;
+  border:none;
   font-size:18px;
   font-weight:600;
-  transition:all .12s ease;
-  box-shadow:0 4px 10px rgba(0,0,0,.05);
+  background:#f3f4f6;
 }
 
-/* 인터랙션 강화 */
-.calc-grid button:active{
-  transform:scale(.9);
-  box-shadow:inset 0 4px 8px rgba(0,0,0,.15);
-}
+.operator{background:var(--operator);color:white;}
+.equal{background:var(--success);color:white;}
 
-/* 🔥 연산자 색상 강조 */
-.calc-grid button:nth-child(4),
-.calc-grid button:nth-child(8),
-.calc-grid button:nth-child(12),
-.calc-grid button:nth-child(16){
-  background:var(--operator);
-  color:white;
-  border:none;
-}
-
-/* 🔥 = 버튼 크게 */
-.calc-grid button:nth-child(15){
-  grid-column:span 2;
-  background:var(--equal);
-  color:white;
-  border:none;
-}
-.equal-btn{
-  grid-column:span 2;
-  background:var(--equal);
-  color:white;
-  border:none;
-}
-/* Copy Button */
 .copy-btn{
-  margin-top:12px;
-  background:var(--accent);
-  color:white;
   width:100%;
   padding:12px;
-  border-radius:16px;
-  font-weight:700;
+  border-radius:14px;
   border:none;
-  transition:.2s ease;
-}
-
-.copy-btn:active{
-  transform:scale(.95);
-}
-퍼센트 영역을 “카드 안에 또 카드” 스타일로 정리
-
-기본 퍼센트와 추가 퍼센트 시각적 분리
-
-숫자 입력을 스텝퍼(+ - 버튼) UI로 업그레이드
-/* ============================= */
-/*   Percent Card Inside Card   */
-/* ============================= */
-
-.percent-card{
-  padding:18px;
-}
-
-.inner-card{
-  background:#f9fafb;
-  border:1px solid #e5e7eb;
-  border-radius:16px;
-  padding:14px;
+  background:var(--primary);
+  color:white;
+  font-weight:600;
   margin-top:12px;
 }
 
-.inner-card h3{
-  font-size:12px;
-  margin-bottom:10px;
-  color:#374151;
-}
-
-/* 행 정렬 */
-.percent-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-  gap:10px;
-}
-
-.percent-row span{
-  font-weight:700;
-  color:#111827;
-}
-
-/* 스텝퍼 */
-.stepper{
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-
-.stepper input{
-  width:55px;
-  text-align:center;
-  padding:6px;
-  border-radius:8px;
-  border:1px solid #d1d5db;
-}
-
-.stepper button{
-  width:28px;
-  height:28px;
-  border-radius:8px;
-  border:none;
-  background:#e5e7eb;
-  font-weight:700;
-  cursor:pointer;
-  transition:.15s ease;
-}
-
-.stepper button:active{
-  transform:scale(.85);
-  background:#d1d5db;
-}
-
-/* 추가 퍼센트 시각적 분리 */
-.extra-section{
-  background:#eef2ff;
-  border:1px solid #c7d2fe;
-}
-/* ============================= */
-/* ============================= */
-/*   Clean Tip Layout Upgrade   */
-/* ============================= */
-
-.tip-card {
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-}
-
-.tip-card .inner-card{
-  background:#f9fafb;
-  border:1px solid #e5e7eb;
-  border-radius:16px;
-  padding:16px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.tip-card h3{
-  font-size:13px;
-  font-weight:600;
-  color:#374151;
-}
-
-/* Grid 정렬 */
-.tip-grid{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-/* 한 줄 정렬 */
-.tip-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.tip-item span{
-  font-size:13px;
-  color:#4b5563;
-}
-
-/* 입력칸 */
-.tip-item input{
-  width:100px;
-  padding:8px;
-  border-radius:10px;
-  border:1px solid #d1d5db;
-  text-align:right;
-  font-size:14px;
-}
-
-/* Extra 강조 */
-.extra-section{
-  background:#eef2ff;
-  border:1px solid #c7d2fe;
-}
-
-.extra-input{
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  border:1px solid #c7d2fe;
-  text-align:right;
-  font-size:14px;
-}
+.hidden{display:none}
 </style>
 </head>
 
 <body>
 
+<div class="header">Tip Pro Dashboard</div>
 <button class="mode-btn" onclick="toggleMode()">🔄 Mode Switch</button>
 
-<!-- ================= TIP MODE ================= -->
+<!-- TIP MODE -->
 <div id="tipMode">
 
-<div class="card tip-card">
+<div class="card">
+<div class="card-title">층별 팁 입력</div>
 
-  <h2>층별 팁 입력</h2>
-
-  <div class="inner-card">
-    <h3>1층</h3>
-    <div class="tip-grid">
-      <div class="tip-item">
-        <span>Cash</span>
-        <input type="number" id="f1c">
-      </div>
-      <div class="tip-item">
-        <span>Card</span>
-        <input type="number" id="f1d">
-      </div>
-    </div>
-  </div>
-
-  <div class="inner-card">
-    <h3>2층</h3>
-    <div class="tip-grid">
-      <div class="tip-item">
-        <span>Cash</span>
-        <input type="number" id="f2c">
-      </div>
-      <div class="tip-item">
-        <span>Card</span>
-        <input type="number" id="f2d">
-      </div>
-    </div>
-  </div>
-
-  <div class="inner-card">
-    <h3>3층</h3>
-    <div class="tip-grid">
-      <div class="tip-item">
-        <span>Cash</span>
-        <input type="number" id="f3c">
-      </div>
-      <div class="tip-item">
-        <span>Card</span>
-        <input type="number" id="f3d">
-      </div>
-    </div>
-  </div>
-
-  <div class="inner-card extra-section">
-    <h3>Extra Tip</h3>
-    <input type="number" id="extra" class="extra-input">
-  </div>
-
+<div class="floor-row">
+<label>1층</label>
+<div class="input-group">
+<input type="number" id="f1c" placeholder="Cash">
+<input type="number" id="f1d" placeholder="Card">
+</div>
 </div>
 
+<div class="floor-row">
+<label>2층</label>
+<div class="input-group">
+<input type="number" id="f2c">
+<input type="number" id="f2d">
+</div>
 </div>
 
-<div class="card percent-card">
-
-<h2>퍼센트 분배</h2>
-
-<div class="inner-card">
-  <h3>기본 퍼센트</h3>
-
-  <div class="percent-row">
-    <span>100%</span>
-    <div class="stepper">
-      <button onclick="stepDown('p100')">−</button>
-      <input type="number" id="p100">
-      <button onclick="stepUp('p100')">+</button>
-    </div>
-  </div>
-
-  <div class="percent-row">
-    <span>50%</span>
-    <div class="stepper">
-      <button onclick="stepDown('p50')">−</button>
-      <input type="number" id="p50">
-      <button onclick="stepUp('p50')">+</button>
-    </div>
-  </div>
-
-  <div class="percent-row">
-    <span>30%</span>
-    <div class="stepper">
-      <button onclick="stepDown('p30')">−</button>
-      <input type="number" id="p30">
-      <button onclick="stepUp('p30')">+</button>
-    </div>
-  </div>
-
-  <div class="percent-row">
-    <span>25%</span>
-    <div class="stepper">
-      <button onclick="stepDown('p25')">−</button>
-      <input type="number" id="p25">
-      <button onclick="stepUp('p25')">+</button>
-    </div>
-  </div>
+<div class="floor-row">
+<label>3층</label>
+<div class="input-group">
+<input type="number" id="f3c">
+<input type="number" id="f3d">
+</div>
 </div>
 
+<div class="floor-row">
+<label>Extra</label>
+<input type="number" id="extra">
+</div>
+</div>
 
-<div class="inner-card extra-section">
-  <h3>추가 퍼센트</h3>
+<div class="card">
+<div class="card-title">퍼센트 분배</div>
 
-  <div class="percent-row">
-    <input type="number" id="cp1" placeholder="%">
-    <div class="stepper">
-      <button onclick="stepDown('cp1n')">−</button>
-      <input type="number" id="cp1n" placeholder="인원">
-      <button onclick="stepUp('cp1n')">+</button>
-    </div>
-  </div>
+<div class="percent-row">
+100%
+<div class="stepper">
+<button onclick="stepDown('p100')">−</button>
+<input type="number" id="p100">
+<button onclick="stepUp('p100')">+</button>
+</div>
+</div>
 
-  <div class="percent-row">
-    <input type="number" id="cp2" placeholder="%">
-    <div class="stepper">
-      <button onclick="stepDown('cp2n')">−</button>
-      <input type="number" id="cp2n" placeholder="인원">
-      <button onclick="stepUp('cp2n')">+</button>
-    </div>
-  </div>
+<div class="percent-row">
+50%
+<div class="stepper">
+<button onclick="stepDown('p50')">−</button>
+<input type="number" id="p50">
+<button onclick="stepUp('p50')">+</button>
+</div>
+</div>
 
+<div class="percent-row">
+30%
+<div class="stepper">
+<button onclick="stepDown('p30')">−</button>
+<input type="number" id="p30">
+<button onclick="stepUp('p30')">+</button>
+</div>
+</div>
+
+<div class="percent-row">
+25%
+<div class="stepper">
+<button onclick="stepDown('p25')">−</button>
+<input type="number" id="p25">
+<button onclick="stepUp('p25')">+</button>
+</div>
+</div>
+
+<hr>
+
+<div class="percent-row">
+<input type="number" id="cp1" placeholder="%">
+<div class="stepper">
+<button onclick="stepDown('cp1n')">−</button>
+<input type="number" id="cp1n" placeholder="인원">
+<button onclick="stepUp('cp1n')">+</button>
+</div>
+</div>
+
+<div class="percent-row">
+<input type="number" id="cp2" placeholder="%">
+<div class="stepper">
+<button onclick="stepDown('cp2n')">−</button>
+<input type="number" id="cp2n" placeholder="인원">
+<button onclick="stepUp('cp2n')">+</button>
+</div>
 </div>
 
 <div id="percentResult" class="result"></div>
-
 </div>
-  <div class="card time-card">
-
-<h2>시간 기준 분배</h2>
-
-<div class="inner-card">
-  <h3>총 팁</h3>
-  <input type="number" id="timeTotal">
-</div>
-
-<div class="inner-card">
-  <h3>근무 시간 입력</h3>
-  <div id="timeContainer"></div>
-  <button class="add-btn" onclick="addTimeRow()">+ 사람 추가</button>
-</div>
-
-<div id="timeResult" class="result"></div>
-
-  </div>
-
-</div>
-
-<!-- ================= CALC MODE ================= -->
-<div id="calcMode" class="hidden">
 
 <div class="card">
-<h2>계산기</h2>
+<div class="card-title">시간 기준 분배</div>
 
-<div id="calcDisplay" class="calc-display">0</div>
-<div id="calcPreview" class="calc-preview">= 0</div>
+<div class="floor-row">
+<label>총 팁</label>
+<input type="number" id="timeTotal">
+</div>
+
+<div id="timeContainer"></div>
+
+<button class="add-btn" onclick="addTimeRow()">+ 사람 추가</button>
+
+<div id="timeResult" class="result"></div>
+</div>
+
+</div>
+
+<!-- CALC MODE -->
+<div id="calcMode" class="hidden">
+<div class="card" style="width:100%;max-width:420px;">
+<div class="calc-display" id="calcDisplay">0</div>
+<div class="calc-preview" id="calcPreview">= 0</div>
 
 <div class="calc-grid">
 <button onclick="press('7')">7</button>
 <button onclick="press('8')">8</button>
 <button onclick="press('9')">9</button>
-<button onclick="press('/')">÷</button>
+<button class="operator" onclick="press('/')">÷</button>
 
 <button onclick="press('4')">4</button>
 <button onclick="press('5')">5</button>
 <button onclick="press('6')">6</button>
-<button onclick="press('*')">×</button>
+<button class="operator" onclick="press('*')">×</button>
 
 <button onclick="press('1')">1</button>
 <button onclick="press('2')">2</button>
 <button onclick="press('3')">3</button>
-<button onclick="press('-')">-</button>
+<button class="operator" onclick="press('-')">-</button>
 
 <button onclick="press('0')">0</button>
 <button onclick="press('.')">.</button>
-<button onclick="press('+')">+</button>
-<button onclick="calculateFinal()">=</button>
- 
+<button class="operator" onclick="press('+')">+</button>
+<button class="equal" onclick="calculateFinal()">=</button>
+
 <button onclick="clearCalc()">C</button>
-  <button onclick="clearCalc()">C</button>
 <button onclick="backspace()">⌫</button>
 </div>
 
-<button class="copy-btn" onclick="copyResult()">📋 결과 복사</button>
-
+<button class="copy-btn" onclick="copyResult()">결과 복사</button>
 </div>
 </div>
-
 <script>
-let currentMode="tip";
 function toggleMode(){
-  document.getElementById("tipMode").classList.toggle("hidden");
-  document.getElementById("calcMode").classList.toggle("hidden");
+  tipMode.classList.toggle("hidden");
+  calcMode.classList.toggle("hidden");
 }
 
-/* -------- TIP -------- */
-function val(id){return Number(document.getElementById(id).value)||0;}
+/* ===== 공통 ===== */
+function val(id){
+  return Number(document.getElementById(id).value) || 0;
+}
 
+document.addEventListener("input",()=>{
+  calculate();
+  calculateTime();
+});
+
+/* ===== 퍼센트 계산 ===== */
 function calculate(){
-  const total=
+  const total =
     val("f1c")+val("f1d")+
     val("f2c")+val("f2d")+
     val("f3c")+val("f3d")+
@@ -516,110 +400,95 @@ function calculate(){
   ];
 
   let totalCoef=0;
-  groups.forEach(g=>{totalCoef+=g.coef*g.count;});
+  groups.forEach(g=>{ totalCoef += g.coef * g.count; });
 
-  let distributed=0;
-  let html="총 팁: "+total+"<br>총 계수: "+totalCoef.toFixed(2)+"<br><br>";
-
-  groups.forEach(g=>{
-    if(g.count>0 && g.coef>0){
-      const one=Math.floor((total/totalCoef)*g.coef);
-      const sum=one*g.count;
-      distributed+=sum;
-      html+=`${g.label} → 1인 ${one} / 합 ${sum}<br>`;
-    }
-  });
-
-  html+="<br>남은 금액: "+(total-distributed);
-  document.getElementById("percentResult").innerHTML=html;
-}
-document.addEventListener("input",calculate);
-let timeCount=0;
-const maxTimePeople=8;
-
-function addTimeRow(){
-  if(timeCount>=maxTimePeople) return;
-
-  const div=document.createElement("div");
-  div.className="grid-2";
-  div.innerHTML=`
-    <div>
-      <label>시간</label>
-      <input type="number" class="timeHours">
-    </div>
-    <div>
-      <label>인원</label>
-      <input type="number" class="timePeople">
-    </div>
-  `;
-  document.getElementById("timeContainer").appendChild(div);
-  timeCount++;
-}
-
-function calculateTime(){
-
-  const total=Number(document.getElementById("timeTotal").value)||0;
-  const hourInputs=[...document.querySelectorAll(".timeHours")];
-  const peopleInputs=[...document.querySelectorAll(".timePeople")];
-
-  let totalHours=0;
-
-  for(let i=0;i<hourInputs.length;i++){
-    const hours=Number(hourInputs[i].value)||0;
-    const people=Number(peopleInputs[i].value)||0;
-    totalHours += hours*people;
-  }
-
-  if(totalHours===0){
-    document.getElementById("timeResult").innerHTML="";
+  if(totalCoef === 0){
+    percentResult.innerHTML="";
     return;
   }
 
-  const perHour=Math.floor(total/totalHours);
+  let html=`총 팁: ${total}<br><br>`;
+  groups.forEach(g=>{
+    if(g.count>0 && g.coef>0){
+      const one = Math.floor((total/totalCoef)*g.coef);
+      html += `${g.label} → 1인 ${one}<br>`;
+    }
+  });
 
-  let distributed=0;
-  let html=`총 시간: ${totalHours}<br>`;
-  html+=`시간당 금액: ${perHour}<br><br>`;
+  percentResult.innerHTML=html;
+}
 
-  for(let i=0;i<hourInputs.length;i++){
-    const hours=Number(hourInputs[i].value)||0;
-    const people=Number(peopleInputs[i].value)||0;
+/* ===== 시간 기준 분배 ===== */
+function addTimeRow(){
+  const container = document.getElementById("timeContainer");
+
+  const div = document.createElement("div");
+  div.className = "time-row";
+
+  div.innerHTML = `
+    <input type="number" class="timeHours" placeholder="시간">
+    <input type="number" class="timePeople" placeholder="인원">
+  `;
+
+  container.appendChild(div);
+}
+
+function calculateTime(){
+  const total = val("timeTotal");
+  const hoursInputs = document.querySelectorAll(".timeHours");
+  const peopleInputs = document.querySelectorAll(".timePeople");
+
+  let totalHours = 0;
+
+  for(let i=0;i<hoursInputs.length;i++){
+    const hours = Number(hoursInputs[i].value) || 0;
+    const people = Number(peopleInputs[i].value) || 0;
+    totalHours += hours * people;
+  }
+
+  if(totalHours === 0){
+    timeResult.innerHTML="";
+    return;
+  }
+
+  const perHour = Math.floor(total / totalHours);
+
+  let html = `총 근무시간: ${totalHours}<br>`;
+  html += `시간당 금액: ${perHour}<br><br>`;
+
+  for(let i=0;i<hoursInputs.length;i++){
+    const hours = Number(hoursInputs[i].value) || 0;
+    const people = Number(peopleInputs[i].value) || 0;
 
     if(hours>0 && people>0){
-      const amount=perHour*hours;
-      const groupTotal=amount*people;
-      distributed+=groupTotal;
-
-      html+=`시간 ${hours}h / ${people}명 → 1인 ${amount} / 합 ${groupTotal}<br>`;
+      const one = perHour * hours;
+      html += `${hours}시간 / ${people}명 → 1인 ${one}<br>`;
     }
   }
 
-  html+=`<br>남은 금액: ${total-distributed}`;
-
-  document.getElementById("timeResult").innerHTML=html;
+  timeResult.innerHTML = html;
 }
- document.addEventListener("input", calculateTime);
-/* -------- CALC -------- */
+
+/* ===== 계산기 ===== */
 let expression="";
 
-function press(val){
-  expression+=val;
+function press(v){
+  expression += v;
   updateCalc();
 }
 
 function updateCalc(){
-  document.getElementById("calcDisplay").innerText=expression||"0";
+  calcDisplay.innerText = expression || "0";
   try{
-    const preview=eval(expression);
-    document.getElementById("calcPreview").innerText="= "+preview;
+    calcPreview.innerText = "= " + eval(expression);
   }catch{
-    document.getElementById("calcPreview").innerText="= ?";
+    calcPreview.innerText = "= ?";
   }
 }
 
 function calculateFinal(){
   try{
-    expression=eval(expression).toString();
+    expression = eval(expression).toString();
   }catch{
     expression="Error";
   }
@@ -630,24 +499,14 @@ function clearCalc(){
   expression="";
   updateCalc();
 }
+
 function backspace(){
   expression = expression.slice(0,-1);
   updateCalc();
 }
+
 function copyResult(){
   navigator.clipboard.writeText(expression);
-  alert("결과 복사 완료");
-}
-  function stepUp(id){
-  const input = document.getElementById(id);
-  input.value = Number(input.value || 0) + 1;
-  calculate();
-}
-
-function stepDown(id){
-  const input = document.getElementById(id);
-  input.value = Math.max(0, Number(input.value || 0) - 1);
-  calculate();
 }
 </script>
 
