@@ -7,72 +7,44 @@
 
 <style>
 
- :root{
-  --bg:#f5f7fb;
-  --card:#ffffffcc;
-  --border:#e6e9f0;
+:root{
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --border:#e5e7eb;
   --accent:#4f46e5;
-  --accent-soft:rgba(79,70,229,.15);
-  --text:#1e293b;
+  --operator:#f59e0b;
+  --equal:#10b981;
+  --text:#1f2937;
   --sub:#6b7280;
 }
 
-/* ===== Background (밝게 변경) ===== */
+/* ===== Base ===== */
 body{
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
   margin:0;
-  padding:20px;
+  padding:14px;
   background:var(--bg);
   color:var(--text);
-}
-
-/* ===== Mode Button ===== */
-.mode-btn{
-  width:100%;
-  margin-bottom:18px;
-  background:var(--accent);
-  color:white;
-  font-weight:700;
-  border:none;
-  padding:11px;
-  border-radius:14px;
-  cursor:pointer;
-  transition:.2s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 8px 20px rgba(79,70,229,.25);
-}
-
-.mode-btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 12px 28px rgba(79,70,229,.35);
-}
-
-.mode-btn:active{
-  transform:scale(.96);
-  box-shadow:0 4px 12px rgba(79,70,229,.2);
+  max-width:480px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 /* ===== Cards ===== */
 .card{
   background:var(--card);
-  backdrop-filter:blur(14px);
-  padding:18px;
-  border-radius:20px;
-  margin-bottom:18px;
+  padding:16px;
+  border-radius:22px;
+  margin-bottom:16px;
   border:1px solid var(--border);
-  box-shadow:0 10px 30px rgba(0,0,0,.05);
-  transition:.25s ease;
+  box-shadow:0 8px 24px rgba(0,0,0,.05);
 }
 
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 18px 40px rgba(0,0,0,.08);
-}
-
-/* ===== Grid ===== */
+/* ===== Tip Input Size Half ===== */
 .grid-2{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
+  gap:8px;
 }
 
 .grid-3{
@@ -81,51 +53,51 @@ body{
   gap:8px;
 }
 
-/* ===== Labels ===== */
 label{
   font-size:10px;
   color:var(--sub);
   font-weight:600;
 }
 
-/* ===== Inputs (크기 축소) ===== */
 input{
   width:100%;
-  padding:7px 8px;   /* ↓ 줄임 */
-  font-size:13px;    /* ↓ 줄임 */
+  max-width:90px;   /* 🔥 가로 절반 수준 */
+  padding:6px 6px;
+  font-size:12px;
   border-radius:10px;
   border:1px solid var(--border);
-  background:white;
-  transition:.2s ease;
 }
 
-input:focus{
-  outline:none;
-  border:1px solid var(--accent);
-  box-shadow:0 0 0 3px var(--accent-soft);
-}
-
-/* ===== Result ===== */
+/* ===== Result Animation ===== */
 .result{
-  margin-top:12px;
+  margin-top:10px;
   font-size:12px;
-  padding:12px;
+  padding:10px;
   border-radius:12px;
-  background:#f9fafc;
+  background:#f9fafb;
   border:1px solid var(--border);
   line-height:1.5;
+  animation:fadeIn .25s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(5px);}
+  to{opacity:1; transform:translateY(0);}
 }
 
 .hidden{display:none}
 
-/* ===== Calculator ===== */
+/* ================= CALCULATOR ================= */
+
 .calc-display{
   background:#111827;
   color:#22c55e;
-  padding:14px;
-  font-size:20px;
-  border-radius:14px;
+  padding:16px;
+  font-size:22px;
+  border-radius:16px;
   margin-bottom:6px;
+  text-align:right;
+  transition:.2s ease;
 }
 
 .calc-preview{
@@ -134,60 +106,74 @@ input:focus{
   font-size:13px;
   border-radius:12px;
   margin-bottom:14px;
-  color:#374151;
+  text-align:right;
 }
 
-/* ===== Calculator Grid ===== */
+/* Grid */
 .calc-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:10px;
 }
 
-/* ===== Strong Button Interaction ===== */
+/* 기본 숫자 버튼 */
 .calc-grid button{
   background:white;
   border:1px solid var(--border);
-  border-radius:14px;
-  padding:14px 0;
-  font-size:16px;
-  cursor:pointer;
-  transition:all .15s ease;
+  border-radius:16px;
+  padding:16px 0;
+  font-size:18px;
+  font-weight:600;
+  transition:all .12s ease;
   box-shadow:0 4px 10px rgba(0,0,0,.05);
 }
 
-.calc-grid button:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 18px rgba(0,0,0,.1);
-}
-
+/* 인터랙션 강화 */
 .calc-grid button:active{
-  transform:scale(.93);
+  transform:scale(.9);
   box-shadow:inset 0 4px 8px rgba(0,0,0,.15);
 }
 
+/* 🔥 연산자 색상 강조 */
+.calc-grid button:nth-child(4),
+.calc-grid button:nth-child(8),
+.calc-grid button:nth-child(12),
+.calc-grid button:nth-child(16){
+  background:var(--operator);
+  color:white;
+  border:none;
+}
+
+/* 🔥 = 버튼 크게 */
+.calc-grid button:nth-child(15){
+  grid-column:span 2;
+  background:var(--equal);
+  color:white;
+  border:none;
+}
+.equal-btn{
+  grid-column:span 2;
+  background:var(--equal);
+  color:white;
+  border:none;
+}
 /* Copy Button */
 .copy-btn{
-  margin-top:14px;
+  margin-top:12px;
   background:var(--accent);
   color:white;
   width:100%;
-  padding:11px;
-  border-radius:14px;
+  padding:12px;
+  border-radius:16px;
   font-weight:700;
   border:none;
-  cursor:pointer;
   transition:.2s ease;
-  box-shadow:0 8px 20px rgba(79,70,229,.25);
-}
-
-.copy-btn:hover{
-  transform:translateY(-3px);
 }
 
 .copy-btn:active{
   transform:scale(.95);
 }
+
 </style>
 </head>
 
@@ -275,9 +261,9 @@ input:focus{
 
 <button onclick="press('0')">0</button>
 <button onclick="press('.')">.</button>
-<button onclick="calculateFinal()">=</button>
 <button onclick="press('+')">+</button>
-
+<button onclick="calculateFinal()">=</button>
+ 
 <button onclick="clearCalc()">C</button>
   <button onclick="clearCalc()">C</button>
 <button onclick="backspace()">⌫</button>
