@@ -356,6 +356,7 @@ function addTimeRow(){
 }
 
 function calculateTime(){
+function calculateTime(){
 
   const total=Number(document.getElementById("timeTotal").value)||0;
   const hourInputs=[...document.querySelectorAll(".timeHours")];
@@ -396,8 +397,8 @@ function calculateTime(){
   html+=`<br>남은 금액: ${total-distributed}`;
 
   document.getElementById("timeResult").innerHTML=html;
- document.addEventListener("input", calculateTime);
 }
+ document.addEventListener("input", calculateTime);
 /* -------- CALC -------- */
 let expression="";
 
