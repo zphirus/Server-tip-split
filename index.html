@@ -173,7 +173,33 @@ input{
 .copy-btn:active{
   transform:scale(.95);
 }
+/* ============================= */
+/*   Percent Section Mobile Fix  */
+/* ============================= */
 
+@media (max-width:480px){
+
+  /* 퍼센트 기본 1열 정렬 */
+  #tipMode .grid-2,
+  #tipMode .grid-3{
+    grid-template-columns:1fr !important;
+  }
+
+  /* 퍼센트 입력 한 줄 정리 */
+  #tipMode .grid-2 > div,
+  #tipMode .grid-3 > div{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+  }
+
+  /* 퍼센트 입력칸 크기 통일 */
+  #tipMode input{
+    max-width:80px;
+  }
+
+}
 </style>
 </head>
 
