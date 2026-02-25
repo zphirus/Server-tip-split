@@ -173,6 +173,83 @@ input{
 .copy-btn:active{
   transform:scale(.95);
 }
+퍼센트 영역을 “카드 안에 또 카드” 스타일로 정리
+
+기본 퍼센트와 추가 퍼센트 시각적 분리
+
+숫자 입력을 스텝퍼(+ - 버튼) UI로 업그레이드
+/* ============================= */
+/*   Percent Card Inside Card   */
+/* ============================= */
+
+.percent-card{
+  padding:18px;
+}
+
+.inner-card{
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:14px;
+  margin-top:12px;
+}
+
+.inner-card h3{
+  font-size:12px;
+  margin-bottom:10px;
+  color:#374151;
+}
+
+/* 행 정렬 */
+.percent-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  gap:10px;
+}
+
+.percent-row span{
+  font-weight:700;
+  color:#111827;
+}
+
+/* 스텝퍼 */
+.stepper{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.stepper input{
+  width:55px;
+  text-align:center;
+  padding:6px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+}
+
+.stepper button{
+  width:28px;
+  height:28px;
+  border-radius:8px;
+  border:none;
+  background:#e5e7eb;
+  font-weight:700;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.stepper button:active{
+  transform:scale(.85);
+  background:#d1d5db;
+}
+
+/* 추가 퍼센트 시각적 분리 */
+.extra-section{
+  background:#eef2ff;
+  border:1px solid #c7d2fe;
+}
 
 </style>
 </head>
@@ -198,26 +275,76 @@ input{
 <input type="number" id="extra">
 </div>
 
-<div class="card">
+<div class="card percent-card">
+
 <h2>퍼센트 분배</h2>
-<div class="grid-2">
-<div><label>100% 인원</label><input type="number" id="p100"></div>
-<div><label>50% 인원</label><input type="number" id="p50"></div>
-<div><label>30% 인원</label><input type="number" id="p30"></div>
-<div><label>25% 인원</label><input type="number" id="p25"></div>
+
+<div class="inner-card">
+  <h3>기본 퍼센트</h3>
+
+  <div class="percent-row">
+    <span>100%</span>
+    <div class="stepper">
+      <button onclick="stepDown('p100')">−</button>
+      <input type="number" id="p100">
+      <button onclick="stepUp('p100')">+</button>
+    </div>
+  </div>
+
+  <div class="percent-row">
+    <span>50%</span>
+    <div class="stepper">
+      <button onclick="stepDown('p50')">−</button>
+      <input type="number" id="p50">
+      <button onclick="stepUp('p50')">+</button>
+    </div>
+  </div>
+
+  <div class="percent-row">
+    <span>30%</span>
+    <div class="stepper">
+      <button onclick="stepDown('p30')">−</button>
+      <input type="number" id="p30">
+      <button onclick="stepUp('p30')">+</button>
+    </div>
+  </div>
+
+  <div class="percent-row">
+    <span>25%</span>
+    <div class="stepper">
+      <button onclick="stepDown('p25')">−</button>
+      <input type="number" id="p25">
+      <button onclick="stepUp('p25')">+</button>
+    </div>
+  </div>
 </div>
 
-<h3 style="font-size:13px;margin-top:10px;">추가 퍼센트</h3>
-<div class="grid-3">
-<div><label>%</label><input type="number" id="cp1"></div>
-<div><label>인원</label><input type="number" id="cp1n"></div>
-<div></div>
-<div><label>%</label><input type="number" id="cp2"></div>
-<div><label>인원</label><input type="number" id="cp2n"></div>
-<div></div>
+
+<div class="inner-card extra-section">
+  <h3>추가 퍼센트</h3>
+
+  <div class="percent-row">
+    <input type="number" id="cp1" placeholder="%">
+    <div class="stepper">
+      <button onclick="stepDown('cp1n')">−</button>
+      <input type="number" id="cp1n" placeholder="인원">
+      <button onclick="stepUp('cp1n')">+</button>
+    </div>
+  </div>
+
+  <div class="percent-row">
+    <input type="number" id="cp2" placeholder="%">
+    <div class="stepper">
+      <button onclick="stepDown('cp2n')">−</button>
+      <input type="number" id="cp2n" placeholder="인원">
+      <button onclick="stepUp('cp2n')">+</button>
+    </div>
+  </div>
+
 </div>
 
 <div id="percentResult" class="result"></div>
+
 </div>
   <div class="card">
 <h2>시간 기준 분배</h2>
@@ -422,6 +549,17 @@ function backspace(){
 function copyResult(){
   navigator.clipboard.writeText(expression);
   alert("결과 복사 완료");
+}
+  function stepUp(id){
+  const input = document.getElementById(id);
+  input.value = Number(input.value || 0) + 1;
+  calculate();
+}
+
+function stepDown(id){
+  const input = document.getElementById(id);
+  input.value = Math.max(0, Number(input.value || 0) - 1);
+  calculate();
 }
 </script>
 
