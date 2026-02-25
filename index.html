@@ -120,58 +120,234 @@ input:focus{
 }
 
 .hidden{display:none}
+/* ============================= */
+/*        TIP PRO – PRO UI      */
+/* ============================= */
 
-/* ===== Calculator Upgrade ===== */
+:root{
+  --bg1:#0f172a;
+  --bg2:#1e293b;
+  --accent:#4f46e5;
+  --accent-soft:rgba(79,70,229,.15);
+  --glass:rgba(255,255,255,.08);
+  --glass-border:rgba(255,255,255,.15);
+  --text:#f1f5f9;
+  --sub:#94a3b8;
+}
+
+/* ===== Background ===== */
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+  margin:0;
+  padding:22px;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 20% 20%, #1e293b 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, #312e81 0%, transparent 40%),
+    linear-gradient(160deg,var(--bg1),var(--bg2));
+  min-height:100vh;
+}
+
+/* ===== Typography ===== */
+
+h2{
+  font-size:15px;
+  margin-bottom:14px;
+  font-weight:700;
+  letter-spacing:-0.3px;
+}
+
+/* ===== Mode Button ===== */
+
+.mode-btn{
+  width:100%;
+  margin-bottom:20px;
+  background:linear-gradient(135deg,#6366f1,#4f46e5);
+  color:white;
+  font-weight:700;
+  border:none;
+  padding:12px;
+  border-radius:16px;
+  cursor:pointer;
+  box-shadow:
+    0 10px 30px rgba(79,70,229,.4);
+  transition:.25s ease;
+}
+
+.mode-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:
+    0 15px 40px rgba(79,70,229,.55);
+}
+
+.mode-btn:active{
+  transform:scale(.97);
+}
+
+/* ===== Glass Cards ===== */
+
+.card{
+  background:var(--glass);
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+  padding:20px;
+  border-radius:24px;
+  margin-bottom:22px;
+  border:1px solid var(--glass-border);
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  transition:.3s ease;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:
+    0 30px 60px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* ===== Grid ===== */
+
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.grid-3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+}
+
+/* ===== Labels ===== */
+
+label{
+  font-size:11px;
+  color:var(--sub);
+  font-weight:600;
+  letter-spacing:.3px;
+}
+
+/* ===== Inputs ===== */
+
+input{
+  width:100%;
+  padding:11px;
+  font-size:14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.05);
+  color:var(--text);
+  transition:.2s ease;
+}
+
+input:focus{
+  outline:none;
+  border:1px solid var(--accent);
+  box-shadow:0 0 0 3px var(--accent-soft);
+  background:rgba(255,255,255,.08);
+}
+
+/* ===== Result Box ===== */
+
+.result{
+  margin-top:14px;
+  font-size:13px;
+  padding:16px;
+  border-radius:16px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  line-height:1.6;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.3);
+}
+
+.hidden{display:none}
+
+/* ============================= */
+/*        CALCULATOR UI         */
+/* ============================= */
 
 .calc-display{
-  background:#0f1115;
-  color:#00ff88;
-  padding:14px;
-  font-size:20px;
-  border-radius:14px;
+  background:linear-gradient(145deg,#0f172a,#1e293b);
+  color:#00ffcc;
+  padding:16px;
+  font-size:22px;
+  border-radius:18px;
   margin-bottom:6px;
   word-break:break-all;
-  box-shadow:inset 0 3px 8px rgba(0,0,0,0.5);
+  box-shadow:
+    inset 6px 6px 12px rgba(0,0,0,.6),
+    inset -4px -4px 8px rgba(255,255,255,.03);
 }
 
 .calc-preview{
-  background:#181c22;
-  color:#7CFC00;
-  padding:10px;
+  background:rgba(255,255,255,.05);
+  color:#22d3ee;
+  padding:12px;
   font-size:14px;
-  border-radius:12px;
-  margin-bottom:14px;
+  border-radius:14px;
+  margin-bottom:16px;
+  border:1px solid rgba(255,255,255,.08);
 }
 
 .calc-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px;
+  gap:14px;
 }
 
+/* ===== Neumorphism Buttons ===== */
+
 .calc-grid button{
-  background:linear-gradient(145deg,#2e3440,#1e222b);
-  color:white;
-  font-size:16px;
-  padding:14px 0;
-  border-radius:16px;
+  background:linear-gradient(145deg,#1e293b,#0f172a);
+  color:#f8fafc;
+  font-size:17px;
+  padding:16px 0;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
   box-shadow:
-    4px 4px 10px rgba(0,0,0,0.4),
-    -4px -4px 8px rgba(255,255,255,0.03);
+    8px 8px 18px rgba(0,0,0,.6),
+    -6px -6px 14px rgba(255,255,255,.03);
+  transition:.2s ease;
+}
+
+.calc-grid button:hover{
+  box-shadow:
+    10px 10px 24px rgba(0,0,0,.7),
+    -8px -8px 16px rgba(255,255,255,.04);
 }
 
 .calc-grid button:active{
   transform:scale(.95);
-  box-shadow:inset 3px 3px 8px rgba(0,0,0,0.6);
+  box-shadow:
+    inset 6px 6px 12px rgba(0,0,0,.6);
 }
 
+/* ===== Copy Button ===== */
+
 .copy-btn{
-  margin-top:14px;
-  background:linear-gradient(135deg,#00c853,#00e676);
+  margin-top:16px;
+  background:linear-gradient(135deg,#06b6d4,#3b82f6);
   color:white;
   width:100%;
+  padding:13px;
+  border-radius:18px;
   font-weight:700;
-  box-shadow:0 6px 18px rgba(0,200,83,0.3);
+  border:none;
+  cursor:pointer;
+  box-shadow:
+    0 10px 30px rgba(59,130,246,.4);
+  transition:.25s ease;
+}
+
+.copy-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:
+    0 15px 40px rgba(59,130,246,.6);
 }
 
 .copy-btn:active{
