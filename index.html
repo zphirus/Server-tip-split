@@ -207,7 +207,14 @@ input:focus{
   font-weight:600;
   margin-top:12px;
 }
+.calc-btn{
+  font-size:22px;
+}
 
+.operator{
+  background:#d98c2b;   /* 차분한 주황 */
+  color:white;
+}
 .hidden{display:none}
 </style>
 </head>
@@ -391,8 +398,13 @@ document.addEventListener("input",()=>{
 function changeCount(id, delta){
   const input = document.getElementById(id);
   let current = Number(input.value) || 0;
+
   current += delta;
-  if(current < 0) current = 0;
+
+  if(current < 0){
+    current = 0;
+  }
+
   input.value = current;
   calculate();
 }
@@ -426,18 +438,15 @@ function calculate(){
     return;
   }
 
+  let distributedTotal = 0;
+
   let html=`총 팁: ${total}<br>`;
   html+=`총 퍼센트 계수: ${totalCoef.toFixed(2)}<br><br>`;
-
-  let distributedTotal = 0;
 
   groups.forEach(g=>{
     if(g.count>0 && g.coef>0){
 
-      // 소수 계산 유지
       const rawOne = (total / totalCoef) * g.coef;
-
-      // 실제 지급은 내림 처리
       const one = Math.floor(rawOne);
 
       const groupSum = one * g.count;
@@ -484,33 +493,53 @@ function calculateTime(){
   const hoursInputs = document.querySelectorAll(".timeHours");
   const peopleInputs = document.querySelectorAll(".timePeople");
 
-  let totalHours = 0;
+  let totalWeight = 0;
 
   for(let i=0;i<hoursInputs.length;i++){
     const hours = Number(hoursInputs[i].value) || 0;
     const people = Number(peopleInputs[i].value) || 0;
-    totalHours += hours * people;
+
+    totalWeight += hours * people;
   }
 
-  if(totalHours === 0 || total === 0){
+  if(totalWeight === 0 || total === 0){
     timeResult.innerHTML="";
     return;
   }
 
-  const perHour = Math.floor(total / totalHours);
+  const rawPerUnit = total / totalWeight;
 
-  let html = `총 근무시간: ${totalHours}<br>`;
-  html += `시간당 금액: ${perHour}<br><br>`;
+  let distributedTotal = 0;
+  let html = `총 근무 가중치: ${totalWeight}<br><br>`;
 
   for(let i=0;i<hoursInputs.length;i++){
     const hours = Number(hoursInputs[i].value) || 0;
     const people = Number(peopleInputs[i].value) || 0;
 
-    if(hours>0 && people>0){
-      const one = perHour * hours;
-      html += `${hours}시간 / ${people}명 → 1인 ${one}<br>`;
+    if(hours > 0 && people > 0){
+
+      const rawOne = rawPerUnit * hours;
+
+      // 지급은 내림 처리
+      const one = Math.floor(rawOne);
+
+      const groupSum = one * people;
+
+      distributedTotal += groupSum;
+
+      html += `
+        ${hours}시간 / ${people}명<br>
+        → 1인 ${one}<br>
+        → 그룹합 ${groupSum}<br><br>
+      `;
     }
   }
+
+  const remainder = total - distributedTotal;
+
+  html += `<hr>`;
+  html += `총 지급합: ${distributedTotal}<br>`;
+  html += `남는 금액: ${remainder}`;
 
   timeResult.innerHTML = html;
 }
@@ -522,6 +551,25 @@ function calculateTime(){
 let expression="";
 
 function press(v){
+
+  const operators = ["+","-","*","/"];
+
+  if(operators.includes(v)){
+
+    const lastChar = expression.slice(-1);
+
+    // 마지막이 연산자면 교체
+    if(operators.includes(lastChar)){
+      expression = expression.slice(0,-1) + v;
+      updateCalc();
+      return;
+    }
+
+    if(expression === ""){
+      return;
+    }
+  }
+
   expression += v;
   updateCalc();
 }
