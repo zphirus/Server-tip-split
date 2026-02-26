@@ -429,10 +429,21 @@ function calculate(){
   let html=`총 팁: ${total}<br>`;
   html+=`총 퍼센트 계수: ${totalCoef.toFixed(2)}<br><br>`;
 
+  let distributedTotal = 0;
+
   groups.forEach(g=>{
     if(g.count>0 && g.coef>0){
-      const one = Math.floor((total/totalCoef)*g.coef);
+
+      // 소수 계산 유지
+      const rawOne = (total / totalCoef) * g.coef;
+
+      // 실제 지급은 내림 처리
+      const one = Math.floor(rawOne);
+
       const groupSum = one * g.count;
+
+      distributedTotal += groupSum;
+
       html += `
         ${g.label} (${g.count}명)<br>
         → 1인 ${one}<br>
@@ -440,6 +451,12 @@ function calculate(){
       `;
     }
   });
+
+  const remainder = total - distributedTotal;
+
+  html += `<hr>`;
+  html += `총 지급합: ${distributedTotal}<br>`;
+  html += `남는 금액: ${remainder}`;
 
   percentResult.innerHTML=html;
 }
