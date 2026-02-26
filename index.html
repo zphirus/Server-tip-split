@@ -453,6 +453,121 @@ function calculateTime(){
 
   const perHour = Math.floor(total / totalHours);
 
+<script>
+function toggleMode(){
+  tipMode.classList.toggle("hidden");
+  calcMode.classList.toggle("hidden");
+}
+
+/* ===== 공통 ===== */
+function val(id){
+  return Number(document.getElementById(id)?.value) || 0;
+}
+
+document.addEventListener("input",()=>{
+  calculate();
+  calculateTime();
+});
+
+/* ============================= */
+/* ===== 퍼센트 분배 영역 ===== */
+/* ============================= */
+
+/* + - 버튼 작동 */
+function changeCount(id, delta){
+  const input = document.getElementById(id);
+  let current = Number(input.value) || 0;
+  current += delta;
+  if(current < 0) current = 0;
+  input.value = current;
+  calculate();
+}
+
+/* 계산 */
+function calculate(){
+  const total =
+    val("f1c")+val("f1d")+
+    val("f2c")+val("f2d")+
+    val("f3c")+val("f3d")+
+    val("extra");
+
+  const groups=[
+    {coef:1,count:val("p100"),label:"100%"},
+    {coef:0.5,count:val("p50"),label:"50%"},
+    {coef:0.3,count:val("p30"),label:"30%"},
+    {coef:0.25,count:val("p25"),label:"25%"},
+    {coef:val("cp1")/100,count:val("cp1n"),label:(val("cp1")||0)+"%"},
+    {coef:val("cp2")/100,count:val("cp2n"),label:(val("cp2")||0)+"%"},
+  ];
+
+  let totalCoef=0;
+  groups.forEach(g=>{
+    if(g.count>0 && g.coef>0){
+      totalCoef += g.coef * g.count;
+    }
+  });
+
+  if(totalCoef === 0 || total === 0){
+    percentResult.innerHTML="";
+    return;
+  }
+
+  let html=`총 팁: ${total}<br>`;
+  html+=`총 퍼센트 계수: ${totalCoef.toFixed(2)}<br><br>`;
+
+  groups.forEach(g=>{
+    if(g.count>0 && g.coef>0){
+      const one = Math.floor((total/totalCoef)*g.coef);
+      const groupSum = one * g.count;
+      html += `
+        ${g.label} (${g.count}명)<br>
+        → 1인 ${one}<br>
+        → 해당 퍼센트 총합 ${groupSum}<br><br>
+      `;
+    }
+  });
+
+  percentResult.innerHTML=html;
+}
+
+/* ============================= */
+/* ===== 시간 기준 분배 ===== */
+/* ============================= */
+
+function addTimeRow(){
+  const container = document.getElementById("timeContainer");
+
+  const div = document.createElement("div");
+  div.className = "time-row";
+
+  div.innerHTML = `
+    <input type="number" class="timeHours" placeholder="시간">
+    <input type="number" class="timePeople" placeholder="인원">
+  `;
+
+  container.appendChild(div);
+}
+
+function calculateTime(){
+  const total = val("timeTotal");
+  const hoursInputs = document.querySelectorAll(".timeHours");
+  const peopleInputs = document.querySelectorAll(".timePeople");
+
+  let totalHours = 0;
+
+  for(let i=0;i<hoursInputs.length;i++){
+    const hours = Number(hoursInputs[i].value) || 0;
+    const people = Number(peopleInputs[i].value) || 0;
+    totalHours += hours * people;
+  }
+
+  if(totalHours === 0 || total === 0){
+    timeResult.innerHTML="";
+    return;
+  }
+
+  const perHour = Math.floor(total / totalHours);
+
   let html = `총 근무시간: ${totalHours}<br>`;
   html += `시간당 금액: ${perHour}<br><br>`;
 
@@ -469,7 +584,10 @@ function calculateTime(){
   timeResult.innerHTML = html;
 }
 
+/* ============================= */
 /* ===== 계산기 ===== */
+/* ============================= */
+
 let expression="";
 
 function press(v){
@@ -508,6 +626,7 @@ function backspace(){
 function copyResult(){
   navigator.clipboard.writeText(expression);
 }
+</script>
 </script>
 
 </body>
