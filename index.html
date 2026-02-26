@@ -189,7 +189,7 @@ input:focus{
   height:60px;
   border-radius:16px;
   border:none;
-  font-size:18px;
+  font-size:22px;   /* 🔥 여기 수정 */
   font-weight:600;
   background:#f3f4f6;
 }
@@ -558,7 +558,6 @@ function press(v){
 
     const lastChar = expression.slice(-1);
 
-    // 마지막이 연산자면 교체
     if(operators.includes(lastChar)){
       expression = expression.slice(0,-1) + v;
       updateCalc();
@@ -568,6 +567,13 @@ function press(v){
     if(expression === ""){
       return;
     }
+  }
+
+  // 소수점 중복 방지
+  if(v === "."){
+    const parts = expression.split(/[\+\-\*\/]/);
+    const lastPart = parts[parts.length-1];
+    if(lastPart.includes(".")) return;
   }
 
   expression += v;
@@ -604,6 +610,21 @@ function backspace(){
 
 function copyResult(){
   navigator.clipboard.writeText(expression);
+}
+  function stepUp(id){
+  const input = document.getElementById(id);
+  let value = Number(input.value) || 0;
+  input.value = value + 1;
+  calculate();
+}
+
+function stepDown(id){
+  const input = document.getElementById(id);
+  let value = Number(input.value) || 0;
+  value = value - 1;
+  if(value < 0) value = 0;   // 🔥 0 이하 방지
+  input.value = value;
+  calculate();
 }
 </script>
 
