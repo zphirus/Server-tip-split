@@ -189,15 +189,14 @@ input:focus{
   height:60px;
   border-radius:16px;
   border:none;
-  font-size:22px;   /* 🔥 여기 수정 */
+  font-size:22px;
   font-weight:600;
   background:#f3f4f6;
 }
 .operator{
-  background:#d98c2b;   /* 차분한 주황 */
+  background:#d98c2b;
   color:white;
-  }
-.operator{background:var(--operator);color:white;}
+}
 .equal{background:var(--success);color:white;}
 
 .copy-btn{
@@ -213,7 +212,6 @@ input:focus{
 .calc-btn{
   font-size:22px;
 }
-
 
 .hidden{display:none}
 </style>
@@ -263,61 +261,45 @@ input:focus{
 <div class="card">
 <div class="card-title">퍼센트 분배</div>
 
-<div class="percent-row">
-100%
-<div class="stepper">
-<button onclick="stepDown('p100')">−</button>
-<input type="number" id="p100">
-<button onclick="stepUp('p100')">+</button>
-</div>
+<div id="percentContainer">
+  <div class="percent-row">
+    100%
+    <div class="stepper">
+      <button onclick="stepDown('p100')">−</button>
+      <input type="number" id="p100">
+      <button onclick="stepUp('p100')">+</button>
+    </div>
+  </div>
+
+  <div class="percent-row">
+    50%
+    <div class="stepper">
+      <button onclick="stepDown('p50')">−</button>
+      <input type="number" id="p50">
+      <button onclick="stepUp('p50')">+</button>
+    </div>
+  </div>
+
+  <div class="percent-row">
+    30%
+    <div class="stepper">
+      <button onclick="stepDown('p30')">−</button>
+      <input type="number" id="p30">
+      <button onclick="stepUp('p30')">+</button>
+    </div>
+  </div>
+
+  <div class="percent-row">
+    25%
+    <div class="stepper">
+      <button onclick="stepDown('p25')">−</button>
+      <input type="number" id="p25">
+      <button onclick="stepUp('p25')">+</button>
+    </div>
+  </div>
 </div>
 
-<div class="percent-row">
-50%
-<div class="stepper">
-<button onclick="stepDown('p50')">−</button>
-<input type="number" id="p50">
-<button onclick="stepUp('p50')">+</button>
-</div>
-</div>
-
-<div class="percent-row">
-30%
-<div class="stepper">
-<button onclick="stepDown('p30')">−</button>
-<input type="number" id="p30">
-<button onclick="stepUp('p30')">+</button>
-</div>
-</div>
-
-<div class="percent-row">
-25%
-<div class="stepper">
-<button onclick="stepDown('p25')">−</button>
-<input type="number" id="p25">
-<button onclick="stepUp('p25')">+</button>
-</div>
-</div>
-
-<hr>
-
-<div class="percent-row">
-<input type="number" id="cp1" placeholder="%">
-<div class="stepper">
-<button onclick="stepDown('cp1n')">−</button>
-<input type="number" id="cp1n" placeholder="인원">
-<button onclick="stepUp('cp1n')">+</button>
-</div>
-</div>
-
-<div class="percent-row">
-<input type="number" id="cp2" placeholder="%">
-<div class="stepper">
-<button onclick="stepDown('cp2n')">−</button>
-<input type="number" id="cp2n" placeholder="인원">
-<button onclick="stepUp('cp2n')">+</button>
-</div>
-</div>
+<button class="add-btn" onclick="addCustomPercent()">+ 커스텀 퍼센트 추가</button>
 
 <div id="percentResult" class="result"></div>
 </div>
@@ -353,7 +335,6 @@ input:focus{
 
 <button onclick="press('4')">4</button>
 <button onclick="press('5')">5</button>
-<button onclick="press('6')">6</button>
 <button class="operator" onclick="press('*')">×</button>
 
 <button onclick="press('1')">1</button>
@@ -380,7 +361,6 @@ function toggleMode(){
   calcMode.classList.toggle("hidden");
 }
 
-/* ===== 공통 ===== */
 function val(id){
   return Number(document.getElementById(id)?.value) || 0;
 }
@@ -390,23 +370,40 @@ document.addEventListener("input",()=>{
   calculateTime();
 });
 
-/* ============================= */
-/* ===== 퍼센트 분배 영역 ===== */
-/* ============================= */
-
-/* + - 버튼 작동 */
-function changeCount(id, delta){
+/* ===== 퍼센트 분배 ===== */
+function stepUp(id){
   const input = document.getElementById(id);
-  let current = Number(input.value) || 0;
-
-  current += delta;
-
-  if(current < 0){
-    current = 0;
-  }
-
-  input.value = current;
+  let value = Number(input.value) || 0;
+  input.value = value + 1;
   calculate();
+}
+
+function stepDown(id){
+  const input = document.getElementById(id);
+  let value = Number(input.value) || 0;
+  value = value - 1;
+  if(value<0) value=0;
+  input.value = value;
+  calculate();
+}
+
+/* 커스텀 퍼센트 추가 */
+let customCount=0;
+function addCustomPercent(){
+  if(customCount>=6) return;
+  customCount++;
+  const container=document.getElementById("percentContainer");
+  const div=document.createElement("div");
+  div.className="percent-row";
+  div.innerHTML=`
+    <input type="number" id="cp${customCount}" placeholder="%">
+    <div class="stepper">
+      <button onclick="stepDown('cp${customCount}n')">−</button>
+      <input type="number" id="cp${customCount}n" placeholder="인원">
+      <button onclick="stepUp('cp${customCount}n')">+</button>
+    </div>
+  `;
+  container.appendChild(div);
 }
 
 /* 계산 */
@@ -417,74 +414,66 @@ function calculate(){
     val("f3c")+val("f3d")+
     val("extra");
 
-  const groups=[
+  let groups=[
     {coef:1,count:val("p100"),label:"100%"},
     {coef:0.5,count:val("p50"),label:"50%"},
     {coef:0.3,count:val("p30"),label:"30%"},
     {coef:0.25,count:val("p25"),label:"25%"},
-    {coef:val("cp1")/100,count:val("cp1n"),label:(val("cp1")||0)+"%"},
-    {coef:val("cp2")/100,count:val("cp2n"),label:(val("cp2")||0)+"%"},
   ];
+
+  // 커스텀 cp1~cp6 추가
+  for(let i=1;i<=customCount;i++){
+    const cval=val("cp"+i);
+    const cnum=val("cp"+i+"n");
+    if(cval>0 && cnum>0){
+      groups.push({coef:cval/100,count:cnum,label:cval+"%"});
+    }
+  }
+
+  // 내림차순 정렬
+  groups.sort((a,b)=>b.coef - a.coef);
 
   let totalCoef=0;
   groups.forEach(g=>{
-    if(g.count>0 && g.coef>0){
-      totalCoef += g.coef * g.count;
-    }
+    totalCoef += g.coef * g.count;
   });
 
-  if(totalCoef === 0 || total === 0){
+  if(totalCoef===0 || total===0){
     percentResult.innerHTML="";
     return;
   }
 
-  let distributedTotal = 0;
-
+  let distributedTotal=0;
   let html=`총 팁: ${total}<br>`;
   html+=`총 퍼센트 계수: ${totalCoef.toFixed(2)}<br><br>`;
 
   groups.forEach(g=>{
-    if(g.count>0 && g.coef>0){
-
-      const rawOne = (total / totalCoef) * g.coef;
-      const one = Math.floor(rawOne);
-
-      const groupSum = one * g.count;
-
-      distributedTotal += groupSum;
-
-      html += `
-        ${g.label} (${g.count}명)<br>
-        → 1인 ${one}<br>
-        → 해당 퍼센트 총합 ${groupSum}<br><br>
-      `;
-    }
+    const rawOne=(total/totalCoef)*g.coef;
+    const one=Math.floor(rawOne);
+    const groupSum=one*g.count;
+    distributedTotal+=groupSum;
+    html+=`
+      ${g.label} (${g.count}명)<br>
+      → 1인 ${one}<br>
+      → 해당 퍼센트 총합 ${groupSum}<br><br>
+    `;
   });
 
-  const remainder = total - distributedTotal;
-
-  html += `<hr>`;
-  html += `총 지급합: ${distributedTotal}<br>`;
-  html += `남는 금액: ${remainder}`;
+  const remainder=total-distributedTotal;
+  html+=`<hr>총 지급합: ${distributedTotal}<br>남는 금액: ${remainder}`;
 
   percentResult.innerHTML=html;
 }
 
-/* ============================= */
 /* ===== 시간 기준 분배 ===== */
-/* ============================= */
-
 function addTimeRow(){
   const container = document.getElementById("timeContainer");
-
   const div = document.createElement("div");
   div.className = "time-row";
-
   div.innerHTML = `
     <input type="number" class="timeHours" placeholder="시간">
     <input type="number" class="timePeople" placeholder="인원">
   `;
-
   container.appendChild(div);
 }
 
@@ -517,16 +506,10 @@ function calculateTime(){
     const people = Number(peopleInputs[i].value) || 0;
 
     if(hours > 0 && people > 0){
-
       const rawOne = rawPerUnit * hours;
-
-      // 지급은 내림 처리
       const one = Math.floor(rawOne);
-
       const groupSum = one * people;
-
       distributedTotal += groupSum;
-
       html += `
         ${hours}시간 / ${people}명<br>
         → 1인 ${one}<br>
@@ -537,39 +520,25 @@ function calculateTime(){
 
   const remainder = total - distributedTotal;
 
-  html += `<hr>`;
-  html += `총 지급합: ${distributedTotal}<br>`;
-  html += `남는 금액: ${remainder}`;
-
+  html += `<hr>총 지급합: ${distributedTotal}<br>남는 금액: ${remainder}`;
   timeResult.innerHTML = html;
 }
 
-/* ============================= */
 /* ===== 계산기 ===== */
-/* ============================= */
-
 let expression="";
 
 function press(v){
-
   const operators = ["+","-","*","/"];
-
   if(operators.includes(v)){
-
     const lastChar = expression.slice(-1);
-
     if(operators.includes(lastChar)){
       expression = expression.slice(0,-1) + v;
       updateCalc();
       return;
     }
-
-    if(expression === ""){
-      return;
-    }
+    if(expression==="") return;
   }
 
-  // 소수점 중복 방지
   if(v === "."){
     const parts = expression.split(/[\+\-\*\/]/);
     const lastPart = parts[parts.length-1];
@@ -590,42 +559,13 @@ function updateCalc(){
 }
 
 function calculateFinal(){
-  try{
-    expression = eval(expression).toString();
-  }catch{
-    expression="Error";
-  }
+  try{ expression=eval(expression).toString(); }catch{ expression="Error"; }
   updateCalc();
 }
 
-function clearCalc(){
-  expression="";
-  updateCalc();
-}
-
-function backspace(){
-  expression = expression.slice(0,-1);
-  updateCalc();
-}
-
-function copyResult(){
-  navigator.clipboard.writeText(expression);
-}
-  function stepUp(id){
-  const input = document.getElementById(id);
-  let value = Number(input.value) || 0;
-  input.value = value + 1;
-  calculate();
-}
-
-function stepDown(id){
-  const input = document.getElementById(id);
-  let value = Number(input.value) || 0;
-  value = value - 1;
-  if(value < 0) value = 0;   // 🔥 0 이하 방지
-  input.value = value;
-  calculate();
-}
+function clearCalc(){ expression=""; updateCalc(); }
+function backspace(){ expression=expression.slice(0,-1); updateCalc(); }
+function copyResult(){ navigator.clipboard.writeText(expression); }
 </script>
 
 </body>
