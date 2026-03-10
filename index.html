@@ -331,7 +331,24 @@ input:focus{
 
 <div id="timeResult" class="result"></div>
 </div>
+<div class="card">
+<div class="card-title">결과 저장</div>
 
+<input type="date" id="saveDate">
+
+<div style="display:flex; gap:8px; margin-top:10px;">
+
+<button onclick="saveResult()" class="copy-btn">저장</button>
+
+<button onclick="loadResult()" class="add-btn">불러오기</button>
+
+</div>
+
+<button onclick="downloadData()" class="mode-btn">
+파일로 다운로드
+</button>
+
+</div>
 </div>
 
 <!-- CALC MODE -->
@@ -582,6 +599,88 @@ function calculateFinal(){
 function clearCalc(){ expression=""; updateCalc(); }
 function backspace(){ expression=expression.slice(0,-1); updateCalc(); }
 function copyResult(){ navigator.clipboard.writeText(expression); }
+
+  function saveResult(){
+
+ const date=document.getElementById("saveDate").value;
+
+ if(!date){
+  alert("날짜 선택");
+  return;
+ }
+
+ let data=JSON.parse(localStorage.getItem("tipData")||"{}");
+
+ data[date]={
+  f1c:val("f1c"),
+  f1d:val("f1d"),
+  f2c:val("f2c"),
+  f2d:val("f2d"),
+  f3c:val("f3c"),
+  f3d:val("f3d"),
+  extra:val("extra"),
+
+  p100:val("p100"),
+  p50:val("p50"),
+  p30:val("p30"),
+  p25:val("p25")
+ };
+
+ localStorage.setItem("tipData",JSON.stringify(data));
+
+ alert("저장 완료");
+}
+
+
+  function loadResult(){
+
+ const date=document.getElementById("saveDate").value;
+
+ let data=JSON.parse(localStorage.getItem("tipData")||"{}");
+
+ if(!data[date]){
+  alert("저장된 데이터 없음");
+  return;
+ }
+
+ const d=data[date];
+
+ document.getElementById("f1c").value=d.f1c||"";
+ document.getElementById("f1d").value=d.f1d||"";
+ document.getElementById("f2c").value=d.f2c||"";
+ document.getElementById("f2d").value=d.f2d||"";
+ document.getElementById("f3c").value=d.f3c||"";
+ document.getElementById("f3d").value=d.f3d||"";
+ document.getElementById("extra").value=d.extra||"";
+
+ document.getElementById("p100").value=d.p100||"";
+ document.getElementById("p50").value=d.p50||"";
+ document.getElementById("p30").value=d.p30||"";
+ document.getElementById("p25").value=d.p25||"";
+
+ calculate();
+
+ alert("불러오기 완료");
+}
+
+  function downloadData(){
+
+ const data=localStorage.getItem("tipData");
+
+ if(!data){
+  alert("저장된 데이터 없음");
+  return;
+ }
+
+ const blob=new Blob([data],{type:"application/json"});
+
+ const a=document.createElement("a");
+
+ a.href=URL.createObjectURL(blob);
+ a.download="tip_backup.json";
+
+ a.click();
+}
 </script>
 
 </body>
