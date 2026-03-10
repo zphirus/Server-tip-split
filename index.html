@@ -430,12 +430,12 @@ function calculate(){
     val("f3c")+val("f3d")+
     val("extra");
 
-  let groups=[
-    {coef:1,count:val("p100"),label:"100%"},
-    {coef:0.5,count:val("p50"),label:"50%"},
-    {coef:0.3,count:val("p30"),label:"30%"},
-    {coef:0.25,count:val("p25"),label:"25%"},
-  ];
+  let groups=[];
+
+if(val("p100")>0) groups.push({coef:1,count:val("p100"),label:"100%"});
+if(val("p50")>0) groups.push({coef:0.5,count:val("p50"),label:"50%"});
+if(val("p30")>0) groups.push({coef:0.3,count:val("p30"),label:"30%"});
+if(val("p25")>0) groups.push({coef:0.25,count:val("p25"),label:"25%"});
 
   // 커스텀 cp1~cp6 추가
   for(let i=1;i<=customCount;i++){
